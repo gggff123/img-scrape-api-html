@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Free Image Search API with Chrome Scraper | Live Demo</title>
+
+<meta name="description" content="Free Image Search API built using headless Chrome scraping. Use REST endpoints to fetch images. Live demo included." />
+<meta name="keywords" content="free image api, image search api, scraper api, chrome api, rest api demo" />
+<meta name="robots" content="index, follow" />
+
+<style>
+body { font-family: Arial; margin: 40px; background:#f9f9f9; }
+.container { max-width: 800px; margin:auto; }
+button { padding:10px 20px; cursor:pointer; }
+input { padding:8px; width:60%; }
+.result img { width:150px; margin:5px; }
+.status { padding:10px; margin-top:10px; }
+</style>
+</head>
+
+<body>
+<div class="container">
+
+<h1>Free Image Search API (Chrome-Based)</h1>
+
+<p>This free REST API allows you to search and scrape images using headless Chrome.</p>
+
+<h2>Base URL</h2>
+<code>https://image-scraper-api-with-chrome.onrender.com</code>
+
+<h2>Endpoints</h2>
+
+<ul>
+<li><b>GET /search?q=cat&count=5</b></li>
+<li><b>GET /health</b></li>
+</ul>
+
+<h2>Live API Demo</h2>
+
+<input type="text" id="query" placeholder="Enter search term..." />
+<button onclick="searchImages()">Search</button>
+
+<div id="results" class="result"></div>
+
+<script>
+async function searchImages(){
+    const q = document.getElementById("query").value;
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "Loading...";
+
+    try{
+        const res = await fetch(`https://image-scraper-api-with-chrome.onrender.com/search?q=${q}&count=5`);
+        const data = await res.json();
+
+        resultsDiv.innerHTML = "";
+
+        data.images.forEach(img => {
+            const image = document.createElement("img");
+            image.src = img;
+            resultsDiv.appendChild(image);
+        });
+
+    } catch(err){
+        resultsDiv.innerHTML = "Error fetching images.";
+    }
+}
+</script>
+
+<h2>Health Check</h2>
+<p>Check API status:</p>
+<a href="https://image-scraper-api-with-chrome.onrender.com/health" target="_blank">View Health Status</a>
+
+</div>
+</body>
+</html>
